@@ -10,7 +10,13 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 let mainWindow
 
 function createMainWindow() {
-  const window = new BrowserWindow({webPreferences: {nodeIntegration: true}})
+  const window = new BrowserWindow(
+    {
+      show: false,
+      webPreferences: 
+      {
+        nodeIntegration: true
+      }})
 
   if (isDevelopment) {
     window.webContents.openDevTools()
@@ -25,7 +31,12 @@ function createMainWindow() {
       protocol: 'file',
       slashes: true
     }))
+    
   }
+
+  window.once('ready-to-show', () => {
+    window.show();
+  });
 
   window.on('closed', () => {
     mainWindow = null
